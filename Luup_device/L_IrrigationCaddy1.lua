@@ -96,17 +96,32 @@ local function debug(textParm)
     end
 end
 
-local function log(textParm, levelParm)
-    local text  = textParm  or 'nil'
-    local level = levelParm or 50
-    luup.log(PLUGIN_NAME.." plugin: "..text, level)
+-- If non existent, create the variable.
+-- Update the variable only if needs to be.
+local function updateVariable(varK, varV, sid, id)
+    if (sid == nil) then sid = PLUGIN_SID      end
+    if (id  == nil) then  id = THIS_LUL_DEVICE end
+
+    if ((varK == nil) or (varV == nil)) then
+        luup.log(PLUGIN_NAME..' debug: '..'Error: updateVariable was supplied with a nil value', 1)
+        return
+    end
+
+    local newValue = tostring(varV)
+    --debug(varK..' = '..newValue)
+    debug(newValue..' --> '..varK)
+
+    local currentValue = luup.variable_get(sid, varK, id)
+    if ((currentValue ~= newValue) or (currentValue == nil)) then
+        luup.variable_set(sid, varK, newValue, id)
+    end
 end
 
 -- IC uses "time=unixTime" to randomise some calls
 -- we will use "rand=unixTime" to randomise all calls
 -- refer also to: http://w3.impa.br/~diego/software/luasocket/http.html
 local function urlRequest(urlPart, request_body)
-    http = require('socket.http')
+    local http = require('socket.http')
     http.TIMEOUT = 5
 
     local response_body = {}
@@ -142,7 +157,7 @@ local function urlRequest(urlPart, request_body)
     end
 
     if (c == 400) then
-        luup.log(PLUGIN_NAME..' debug: HTTP 400 Bad Request', 1)
+        debug('HTTP 400 Bad Request')
         return false, page
     end
 
