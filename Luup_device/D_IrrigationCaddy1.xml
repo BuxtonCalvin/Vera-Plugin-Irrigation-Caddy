@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+   <specVersion>
+      <major>1</major>
+      <minor>0</minor>
+   </specVersion>
+   <device>
+      <deviceType>urn:schemas-a-lurker-com:device:IrrigationCaddy:1</deviceType>
+      <friendlyName>IrrigationCaddy</friendlyName>
+      <manufacturer>A Lurker</manufacturer>
+      <staticJson>D_IrrigationCaddy1.json</staticJson>
+      <serviceList>
+         <service>
+            <serviceType>urn:schemas-a-lurker-com:service:IrrigationCaddy:1</serviceType>
+            <serviceId>urn:a-lurker-com:serviceId:IrrigationCaddy1</serviceId>
+            <SCPDURL>S_IrrigationCaddy1.xml</SCPDURL>
+         </service>
+         <service>
+            <serviceType>urn:schemas-upnp-org:service:SwitchPower:1</serviceType>
+            <serviceId>urn:upnp-org:serviceId:SwitchPower1</serviceId>
+           <SCPDURL>S_SwitchPower1.xml</SCPDURL>
+        </service>
+      </serviceList>
+      <implementationList>
+         <implementationFile>I_IrrigationCaddy1.xml</implementationFile>
+      </implementationList>
+   </device>
+</root>

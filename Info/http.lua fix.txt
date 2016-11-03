@@ -1,0 +1,21 @@
+NOTE:
+
+The Lua "http" library outputs all headers in lowercase. However the Irrigation Caddy firmware is sensitive to header case and will not correctly recognise lowercase headers. It therefore does not fully conform to:
+
+http://www.ietf.org/rfc/rfc2616.txt
+
+"...Each header field consists of a name followed by a colon (":") and the field value. Field names are case-insensitive."
+
+More details here:
+
+http://forum.micasaverde.com/index.php/topic,13081.msg96734.html#msg96734
+
+To resolve this conflict and to get the Irrigation Caddy to co-operate you MUST download this file:
+
+https://github.com/a-lurker/Vera-Plugin-EKM-metering/tree/master/http_file_fix/http.lua
+
+and use it to replace the existing  /usr/lib/lua/socket/http.lua  in Vera.
+
+Each time the Vera firmware is updated  http.lua  will be overwritten. So you also need to make this substitution each time after a firmware update.
+
+Reboot Vera to have the changed file take effect.

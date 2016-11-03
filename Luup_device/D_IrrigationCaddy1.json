@@ -1,0 +1,216 @@
+{
+    "flashicon": "https://a-lurker.github.io/icons/Irrigation_Caddy_50_50.png",
+    "default_icon": "https://a-lurker.github.io/icons/Irrigation_Caddy_50_50.png",
+    "inScene": "1",
+    "DisplayStatus": {},
+    "doc_url": {
+        "doc_language": 1,
+        "doc_manual": 1,
+        "doc_version": 1,
+        "doc_platform": 0,
+        "doc_page": "devices"
+    },
+    "Tabs": [
+        {
+            "Label": {
+                "lang_tag": "tabname_control",
+                "text": "Control"
+            },
+            "Position": "0",
+            "TabType": "flash",
+            "SceneGroup": [
+                {
+                    "id": "1",
+                    "top": "0",
+                    "left": "0",
+                    "x": "1",
+                    "y": "2"
+                }
+            ],
+            "ControlGroup": [
+                {
+                    "id": "1",
+                    "scenegroup": "1",
+                    "isSingle": "1"
+                },
+                {
+                    "id": "2",
+                    "scenegroup": "1",
+                    "isSingle": "1"
+                },
+                {
+                    "id": "3",
+                    "scenegroup": "1",
+                    "isSingle": "1"
+                },
+                {
+                    "id": "4",
+                    "scenegroup": "1",
+                    "isSingle": "1"
+                },
+                {
+                    "id": "5",
+                    "scenegroup": "1",
+                    "isSingle": "1"
+                }
+            ],
+            "Control": [
+                {
+                    "ControlGroup": "1",
+                    "ControlType": "button",
+                    "Label": {
+                        "text": "Off"
+                    },
+                    "top": 0.5,
+                    "left": "0",
+                    "Display": {
+                        "Service": "urn:upnp-org:serviceId:SwitchPower1",
+                        "Variable": "Status",
+                        "Value": "0",
+                        "Top": 30,
+                        "Left": 50,
+                        "Width": 100,
+                        "Height": 20
+                    },
+                    "Command": {
+                        "Service": "urn:upnp-org:serviceId:SwitchPower1",
+                        "Action": "SetTarget",
+                        "Parameters": [
+                            {
+                                "Name": "newTargetValue",
+                                "Value": "0"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ControlGroup": "2",
+                    "ControlType": "button",
+                    "Label": {
+                        "text": "On"
+                    },
+                    "top": 1.5,
+                    "left": "0",
+                    "Display": {
+                        "Service": "urn:upnp-org:serviceId:SwitchPower1",
+                        "Variable": "Status",
+                        "Value": "1",
+                        "Top": 55,
+                        "Left": 50,
+                        "Width": 100,
+                        "Height": 20
+                    },
+                    "Command": {
+                        "Service": "urn:upnp-org:serviceId:SwitchPower1",
+                        "Action": "SetTarget",
+                        "Parameters": [
+                            {
+                                "Name": "newTargetValue",
+                                "Value": "1"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ControlGroup": "3",
+                    "ControlType": "button",
+                    "Label": {
+                        "text": "Run Seq 1"
+                    },
+                    "top": 0.5,
+                    "left": "1",
+                    "Display": {
+                        "Top": 30,
+                        "Left": 160,
+                        "Width": 100,
+                        "Height": 20
+                    },
+                    "Command": {
+                        "Service": "urn:a-lurker-com:serviceId:IrrigationCaddy1",
+                        "Action": "RunZoneSequencer",
+                        "Parameters": [
+                            {
+                                "Name": "newInThisProgram",
+                                "Value": 1
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ControlGroup": "4",
+                    "ControlType": "button",
+                    "Label": {
+                        "text": "Run Seq 2"
+                    },
+                    "top": 1.5,
+                    "left": "1",
+                    "Display": {
+                        "Top": 55,
+                        "Left": 160,
+                        "Width": 100,
+                        "Height": 20
+                    },
+                    "Command": {
+                        "Service": "urn:a-lurker-com:serviceId:IrrigationCaddy1",
+                        "Action": "RunZoneSequencer",
+                        "Parameters": [
+                            {
+                                "Name": "newInThisProgram",
+                                "Value": 2
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ControlGroup": "5",
+                    "ControlType": "button",
+                    "Label": {
+                        "text": "Run Seq 3"
+                    },
+                    "top": 2.5,
+                    "left": "1",
+                    "Display": {
+                        "Top": 80,
+                        "Left": 160,
+                        "Width": 100,
+                        "Height": 20
+                    },
+                    "Command": {
+                        "Service": "urn:a-lurker-com:serviceId:IrrigationCaddy1",
+                        "Action": "RunZoneSequencer",
+                        "Parameters": [
+                            {
+                                "Name": "newInThisProgram",
+                                "Value": 3
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ControlType": "variable",
+                    "top": 2.5,
+                    "left": "0",
+                    "Display": {
+                    "Service": "urn:a-lurker-com:serviceId:IrrigationCaddy1",
+                    "Variable": "LinkToDeviceWebPage",
+                        "Top": 110,
+                        "Left": 50,
+                        "Width": 120,
+                        "Height": 20
+                    }
+                }
+            ]
+        },
+        {
+            "Label": {
+                "lang_tag": "advanced",
+                "text": "Advanced"
+            },
+            "Position": "2",
+            "TabType": "javascript",
+            "ScriptName": "shared.js",
+            "Function": "advanced_device"
+        }
+    ],
+    "DeviceType": "urn:schemas-a-lurker-com:device:IrrigationCaddy:1"
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<scpd xmlns="urn:schemas-upnp-org:service-1-0">
+
+<specVersion>
+  <major>1</major>
+  <minor>0</minor>
+</specVersion>
+
+<serviceStateTable>
+    <stateVariable sendEvents="no">
+      <name>LinkToDeviceWebPage</name>
+      <dataType>string</dataType>
+      <shortCode>linkToDeviceWebPage</shortCode>
+    </stateVariable>
+</serviceStateTable>
+
+<actionList>
+   <action>
+      <name>RunZoneSequencer</name>
+      <argumentList>
+         <argument>
+            <name>newInThisProgram</name>
+            <direction>in</direction>
+            <relatedStateVariable>InThisProgram</relatedStateVariable>
+         </argument>
+      </argumentList>
+   </action>
+</actionList>
+
+</scpd>

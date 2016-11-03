@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation>
+   <settings>
+      <protocol>crlf</protocol>
+      <handleChildren>1</handleChildren>
+   </settings>
+   <files>L_IrrigationCaddy1.lua</files>
+   <startup>luaStartUp</startup>
+   <actionList>
+     <action>
+      <serviceId>urn:upnp-org:serviceId:SwitchPower1</serviceId>
+      <name>SetTarget</name>
+      <run>
+        setTarget(lul_settings.newTargetValue)
+      </run>
+    </action>
+     <action>
+      <serviceId>urn:a-lurker-com:serviceId:IrrigationCaddy1</serviceId>
+      <name>RunZoneSequencer</name>
+      <run>
+        runZoneSequencer(lul_settings.newInThisProgram)
+      </run>
+    </action>
+  </actionList>
+</implementation>
