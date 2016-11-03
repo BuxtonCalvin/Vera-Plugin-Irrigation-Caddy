@@ -5,7 +5,7 @@
     Refer to: http://irrigationcaddy.com/blog/?p=55
     http://irrigationcaddy
 
-    This plugin assumes you are using irrigationcaddy firmware version: "ICEthS1-1.3.223" or better
+    This plugin assumes you are using irrigationcaddy firmware version: 'ICEthS1-1.3.223' or better
     Note that the irrigationcaddy API could be changed at any time by the manufacturer
 
     This program is free software; you can redistribute it and/or
@@ -28,7 +28,7 @@
 -- handling any json would require a json parser
 -- http://code.mios.com/trac/mios_genericutils/wiki/JSONLua
 -- http://json.luaforge.net/
-local JSON_LIB = "json-dm"  -- use the json parser installed by dataMine
+local JSON_LIB = 'json-dm'  -- use the json parser installed by dataMine
 
     Example json useage - not tested
 
@@ -66,7 +66,7 @@ local JSON_LIB = "json-dm"  -- use the json parser installed by dataMine
 ]]
 
 local PLUGIN_NAME     = 'IrrigationCaddy'
-local SERVICE_ID      = 'urn:a-lurker-com:serviceId:'..PLUGIN_NAME..'1'
+local PLUGIN_SID      = 'urn:a-lurker-com:serviceId:'..PLUGIN_NAME..'1'
 local PLUGIN_VERSION  = '0.53'
 local THIS_LUL_DEVICE = nil
 
@@ -81,18 +81,23 @@ local ltn12 = require('ltn12')
 -- http://vera_ip_address/cgi-bin/cmh/log_level.sh?command=disable&log=VERBOSE
 
 -- don't change this, it won't do anything. Use the debugEnabled flag instead
-local DEBUG_MODE  = false
+local DEBUG_MODE = false
 
-local function debug(textParm)
+local function debug(textParm, logLevel)
     if DEBUG_MODE then
         local text = ''
         local theType = type(textParm)
-        if theType == 'string' then
+        if (theType == 'string') then
             text = textParm
         else
-            text = 'type is: '..theType
+            text = 'type = '..theType..', value = '..tostring(textParm)
         end
-        luup.log(PLUGIN_NAME.." debug: "..text, 50)
+        luup.log(PLUGIN_NAME..' debug: '..text,50)
+
+    elseif (logLevel) then
+        local text = ''
+        if (type(textParm) == 'string') then text = textParm end
+        luup.log(PLUGIN_NAME..' debug: '..text, logLevel)
     end
 end
 
@@ -117,8 +122,8 @@ local function updateVariable(varK, varV, sid, id)
     end
 end
 
--- IC uses "time=unixTime" to randomise some calls
--- we will use "rand=unixTime" to randomise all calls
+-- IC uses 'time=unixTime' to randomise some calls
+-- we will use 'rand=unixTime' to randomise all calls
 -- refer also to: http://w3.impa.br/~diego/software/luasocket/http.html
 local function urlRequest(urlPart, request_body)
     local http = require('socket.http')
@@ -238,7 +243,7 @@ local function enableDisableIcProgram(programNumber, programOn)
 
 end
 
--- executes the "Run Now" button for sprinkler programs 1 to 3
+-- executes the 'Run Now' button for sprinkler programs 1 to 3
 local function runNowZoneSequencerInIcProgram(programNumber)
     local pNumber = tonumber(programNumber)
     if (pNumber < 1) or (pNumber > 3) then return false, 'programNumber invalid' end
@@ -267,7 +272,7 @@ local function initVars(THIS_LUL_DEVICE)
     icIpAddress = ipAddress..':'..ipPort
 
     local linkToDeviceWebPage = "<a href='http://"..icIpAddress.."/' target='_blank'>IrrigationCaddy web page</a>"
-    luup.variable_set(SERVICE_ID, "LinkToDeviceWebPage", linkToDeviceWebPage, THIS_LUL_DEVICE)
+    updateVariable('LinkToDeviceWebPage', linkToDeviceWebPage)
 
     local success, result = getIcStatus()
     if not success then return false, 'Status not available' end
@@ -277,9 +282,9 @@ local function initVars(THIS_LUL_DEVICE)
     local allowRun = (str ~= nil)
 
     if allowRun then
-        luup.variable_set(SWP_SID, "Status","1", THIS_LUL_DEVICE)
+        luup.variable_set(SWP_SID, 'Status','1', THIS_LUL_DEVICE)
     else
-        luup.variable_set(SWP_SID, "Status","0", THIS_LUL_DEVICE)
+        luup.variable_set(SWP_SID, 'Status','0', THIS_LUL_DEVICE)
     end
 
     return true, 'Ready'
@@ -297,12 +302,12 @@ local function setTarget(newTargetValue)
     debug('setTarget running')
     debug('newTargetValue: '..newTargetValue)
 
-    if (newTargetValue == "1") then
+    if (newTargetValue == '1') then
         setIcSystemOn()
-        luup.variable_set(SWP_SID, "Status","1", THIS_LUL_DEVICE)
+        luup.variable_set(SWP_SID, 'Status','1', THIS_LUL_DEVICE)
     else
         setIcSystemOff()
-        luup.variable_set(SWP_SID, "Status","0", THIS_LUL_DEVICE)
+        luup.variable_set(SWP_SID, 'Status','0', THIS_LUL_DEVICE)
     end
 end
 
