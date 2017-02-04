@@ -67,7 +67,7 @@ local JSON_LIB = 'json-dm'  -- use the json parser installed by dataMine
 
 local PLUGIN_NAME     = 'IrrigationCaddy'
 local PLUGIN_SID      = 'urn:a-lurker-com:serviceId:'..PLUGIN_NAME..'1'
-local PLUGIN_VERSION  = '0.53'
+local PLUGIN_VERSION  = '0.54'
 local THIS_LUL_DEVICE = nil
 
 local SWP_SID = 'urn:upnp-org:serviceId:SwitchPower1'
@@ -345,5 +345,10 @@ function luaStartUp(lul_device)
 
     local success, message = initVars(THIS_LUL_DEVICE)
     if not success then return false, message, PLUGIN_NAME end
+
+    -- required for UI7. UI5 uses true or false for the passed parameter.
+    -- UI7 uses 0 or 1 or 2 for the parameter. This works for both UI5 and UI7
+    luup.set_failure(false)
+
     return true, 'All OK', PLUGIN_NAME
 end
