@@ -28,7 +28,8 @@
 -- handling any json would require a json parser
 -- http://code.mios.com/trac/mios_genericutils/wiki/JSONLua
 -- http://json.luaforge.net/
-local JSON_LIB = 'json-dm'  -- use the json parser installed by dataMine
+
+local JSON_LIB = 'dkjson'  -- use the json parser installed by dataMine
 
     Example json useage - not tested
 
@@ -67,8 +68,10 @@ local JSON_LIB = 'json-dm'  -- use the json parser installed by dataMine
 
 local PLUGIN_NAME     = 'IrrigationCaddy'
 local PLUGIN_SID      = 'urn:a-lurker-com:serviceId:'..PLUGIN_NAME..'1'
-local PLUGIN_VERSION  = '0.54'
+local PLUGIN_VERSION  = '0.55'
 local THIS_LUL_DEVICE = nil
+local password = ''
+local loginName = ''
 
 local SWP_SID = 'urn:upnp-org:serviceId:SwitchPower1'
 
@@ -262,15 +265,25 @@ end
 
 local function initVars(THIS_LUL_DEVICE)
     local ipa = luup.devices[THIS_LUL_DEVICE].ip
-
+	-- create login name and password for basic authentication
+    password = luup.variable_get(PLUGIN_SID, 'Password', THIS_LUL_DEVICE)
+    loginName = luup.variable_get(PLUGIN_SID, 'LoginName', THIS_LUL_DEVICE)
+	updateVariable('Password',password)
+	updateVariable('LoginName',loginName)
+	
     local ipAddress = string.match(ipa, '^(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?)')
     local ipPort    = string.match(ipa, ':(%d+)$')
-
-    if (ipAddress == nil) then return false, 'Please configure the IP Address' end
+    
+    if (ipAddress == nil) then return false, 'Please configure the IC IP Address' end
     if (ipPort == nil) then ipPort = '80' end
-
-    icIpAddress = ipAddress..':'..ipPort
-
+    if (password == nil) and (loginName ~= nil) then return false, 'Please configure your password' end
+    if (password ~= nil) and (loginName == nil) then return false, 'Please configure your IC login Name' end
+    if (password ~= nil) then 
+        icIpAddress = loginName..':'..password..'@'..ipAddress..':'..ipPort
+    else
+        icIpAddress = ipAddress..':'..ipPort
+    end
+	
     local linkToDeviceWebPage = "<a href='http://"..icIpAddress.."/' target='_blank'>IrrigationCaddy web page</a>"
     updateVariable('LinkToDeviceWebPage', linkToDeviceWebPage)
 
